@@ -1,9 +1,11 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 import json
 import requests
+import gui
+
 from pprint import pprint
 
-class TObj(self):
+class TObj():
 
     def __init__(self):
         self.r = requests.get("https://api.twitch.tv/kraken/users/altf4towin/follows/channels")
@@ -14,4 +16,7 @@ class TObj(self):
 
 
     def printJSON(self):
-        print self.j
+        print(self.j)
+
+g = gui.MainWindow()
+g.run()
