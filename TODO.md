@@ -4,6 +4,7 @@
     - Anything else of use
 - Clean up requests
 - More functional
+- Make more things function-local
 - Comments
 - START WRITING TESTS
 
