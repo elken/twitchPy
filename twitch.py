@@ -8,6 +8,7 @@ import gui
 import tempfile
 import posixpath 
 import timeit
+import fnmatch
 
 try:
     from shlex import quote 
@@ -17,12 +18,12 @@ except ImportError:
 from collections import OrderedDict
 from threading import Thread 
 from queue import Queue
+from gi.repository import Gtk
 
 USER = "altf4towin"
 TOKEN_URL = 'https://api.twitch.tv/kraken/users/' + USER + '/follows/channels'
 
-class TObj():
-
+class Twitch():
     def __init__(self):
         self.j = self.getJSON(limit=1)
 
@@ -85,9 +86,19 @@ class TObj():
 
     def createTempDir(self):
         try:
-            type(self.tempDir) is str
+            self.tempDir
         except AttributeError:
-            self.tempDir = tempfile.mkdtemp(prefix="twitchpy_")
+            flag = False
+            for i in os.listdir(tempfile.gettempdir()):
+                if fnmatch.fnmatch(i, 'twitchpy_*'):
+                    flag = True
+                    break
+
+            if flag:
+                self.tempDir = os.path.join(tempfile.gettempdir(), i)
+            else:
+                self.tempDir = tempfile.mkdtemp(prefix="twitchpy_")
+
             print(("Using '" + self.tempDir + "' as temp dir."))
 
     def getImage(self):
@@ -138,9 +149,9 @@ class TObj():
             u = json.loads(self.rDict[i])
             for j in u['follows']:
                 if json.dumps(j['channel']['logo']).strip('"') is not "null":
-                    self.iUrls[json.dumps(j['channel']['display_name'])] = (json.dumps(j['channel']['logo']).strip('"'))
+                    self.iUrls[json.dumps(j['channel']['display_name'])] = (json.dumps(j['channel']['logo']).strip('"')).replace("300x300", "150x150")
                 else:
-                    self.iUrls[json.dumps(j['channel']['display_name'])] = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_300x300.png"
+                    self.iUrls[json.dumps(j['channel']['display_name'])] = "http://static-cdn.jtvnw.net/jtv_user_pictures/xarth/404_user_150x150.png"
 
         self.iUrls = OrderedDict(sorted(list(self.iUrls.items()), key=lambda s: s[0].lower()))
 
@@ -159,14 +170,26 @@ class TObj():
         for i, j in list(self.iUrls.items()):
             print((i, j))
 
+    def returnFollows(self):
+        return self.follows
 
-#g = gui.MainWindow()
-#g.run()
+    def returnImageURL(self):
+        return self.iUrls
+
+    def returnJSON(self):
+        return self.rDict
+
+    def returnTempDir(self):
+        return self.tempDir
+
+
 if __name__ == '__main__':
     #print(timeit.timeit("t = TObj()", setup="from __main__ import TObj", number=1))
-    t = TObj()
-    t.parseFollows()
-    t.printFollows()
+    #t = Twitch()
+    #t.parseFollows()
+    #t.printFollows()
+    g = gui.MainWindow()
+    g.run()
     #t.parseImageURL()
     #t.getLogos()
     #t.printLogos()
