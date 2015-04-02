@@ -1,10 +1,6 @@
 # Working on
-- More verbose JSON junk (list of dictionaries, or some custom JSON)
-    - Current game
-    - Anything else of use
-- Clean up requests
-- More functional
-- Make more things function-local
+* More functional
+* Make more things function-local
 - Comments
 - START WRITING TESTS
 
@@ -13,3 +9,7 @@
 - Make it xplatform
 
 # DONE
++ More verbose JSON junk (list of dictionaries, or some custom JSON)
+    + Current game
+    + Anything else of use
++ Clean up requests
