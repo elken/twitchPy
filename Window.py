@@ -1,10 +1,10 @@
 import fnmatch
-import os
 import tempfile
-
 import time
+
 from PyQt5.QtCore import QSettings
 from PyQt5.QtWidgets import *
+
 from Twitch import *
 
 
@@ -18,9 +18,10 @@ class TwitchMain(QDialog):
         super(TwitchMain, self).__init__()
         self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, "TwitchPy", "config")
         self.token = self.settings.value("token")
+        self.acc_name = self.settings.value("name")
         print('Using ' + self.temp_dir + ' as temp dir.')
         start_time = time.time()
-        self.twitch = Twitch(self.temp_dir)
+        self.twitch = Twitch(self.temp_dir, self.settings)
         end_time = time.time()
         print('Took %f' % (end_time - start_time))
 
