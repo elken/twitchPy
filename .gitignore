@@ -55,3 +55,5 @@ target/
 
 # IDEA
 .idea/
+
+Guardfile

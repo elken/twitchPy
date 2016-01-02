@@ -10,9 +10,8 @@ class Twitch:
         self.temp_dir = temp_dir
         self.acc_name = self.settings.value("name")
         self.json = get_json(self.acc_name, "/follows/channels/", limit=1)
-        self.data = json.loads(self.json)
+        self.limit = json.loads(self.json)['_total']
         self.following = {}
-        self.limit = self.data['_total']
 
         self.process_follows()
         self.download_images()
