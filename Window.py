@@ -4,7 +4,6 @@ import time
 
 from PyQt5.QtCore import QSettings
 from PyQt5.QtWidgets import *
-from PyQt5.uic import *
 
 from Twitch import *
 from ui import *
@@ -18,9 +17,9 @@ class TwitchMain(QMainWindow):
         :return: A Twitchy.py window object
         """
         super(TwitchMain, self).__init__()
+        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, "TwitchPy", "config")
         self.ui = Ui_TwitchWindow()
         self.ui.setupUi(self)
-        self.settings = QSettings(QSettings.IniFormat, QSettings.UserScope, "TwitchPy", "config")
         self.token = self.settings.value("token")
         self.acc_name = self.settings.value("name")
         print('Using ' + self.temp_dir + ' as temp dir.')
@@ -28,21 +27,6 @@ class TwitchMain(QMainWindow):
         self.twitch = Twitch(self.temp_dir, self.settings)
         end_time = time.time()
         print('Took %f' % (end_time - start_time))
-        # self.main_layout = QGridLayout()
-        # self.left_layout = QVBoxLayout()
-        # self.center_layout = QGridLayout()
-        # self.right_layout = QVBoxLayout()
-        # self.top_bar = QHBoxLayout()
-        # self.left_layout.addWidget(QLabel("Left"))
-        # self.top_bar.addWidget(QLabel("Top"))
-        # self.center_layout.addWidget(QLabel("Center"))
-        # self.right_layout.addWidget(QLabel("Right"))
-        #
-        # self.main_layout.addItem(self.left_layout)
-        # self.main_layout.addItem(self.top_bar)
-        # self.main_layout.addItem(self.center_layout)
-        # self.main_layout.addItem(self.right_layout)
-        # self.setLayout(self.main_layout)
 
     @property
     def temp_dir(self):
